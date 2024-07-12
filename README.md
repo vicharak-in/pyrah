@@ -12,7 +12,9 @@ sudo python3 setup.py install
 ```python
 import pyrah
 
-pyrah.rah_write(b"Hello World!")
-data = pyrah.rah_read()
+APPID = 3
+
+pyrah.rah_write(APPID, b"Hello World!")
+data = pyrah.rah_read(APPID, 10) # Here 10 is length of data count we need
 print(data)
 ```
