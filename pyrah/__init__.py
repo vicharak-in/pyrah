@@ -22,11 +22,14 @@ def write_buffer(appid, buffer, d_len):
     rah.rah_write_mem.argtypes = [ctypes.c_ubyte, ctypes.c_char_p, ctypes.c_ulong]
     rah.rah_write_mem(appid, buffer, d_len)
 
+def get_max_buffer_size():
+    return rah.rah_max_buffer_size()
+
 def rah_write(appid, d_buf):
     if type(d_buf) != bytes:
         raise Exception("Data buffer should be type of bytes")
 
-    maximum_buffer_size = rah.rah_max_buffer_size()
+    maximum_buffer_size = get_max_buffer_size()
     if len(d_buf) > maximum_buffer_size:
         raise Exception("Maximum Buffer size should be " +
                 str(meximum_buffer_size) + "!")
