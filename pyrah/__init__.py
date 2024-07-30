@@ -32,7 +32,7 @@ def rah_write(appid, d_buf):
     maximum_buffer_size = get_max_buffer_size()
     if len(d_buf) > maximum_buffer_size:
         raise Exception("Maximum Buffer size should be " +
-                str(meximum_buffer_size) + "!")
+                str(maximum_buffer_size) + "!")
 
     buffer = __get_buffer(appid, len(d_buf))
     buf_loc = ctypes.c_char_p(buffer)
