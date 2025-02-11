@@ -48,4 +48,4 @@ def rah_read(appid, d_len):
     __rah.rah_read.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_ulong]
 
     __rah.rah_read(appid, ptr, d_len)
-    return repr(ptr.raw)
+    return ptr.raw
