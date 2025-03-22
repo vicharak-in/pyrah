@@ -49,3 +49,7 @@ def rah_read(appid, d_len):
 
     __rah.rah_read(appid, ptr, d_len)
     return ptr.raw
+
+def rah_clear_buffer(appid):
+    __rah.rah_clear_buffer.argtypes = [ctypes.c_int]
+    __rah.rah_clear_buffer(appid)
