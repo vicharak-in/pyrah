@@ -26,22 +26,18 @@ def get_max_buffer_size():
     return __rah.rah_max_buffer_size()
 
 def rah_write(appid, d_buf):
+    MAX_DATA_SIZE = get_max_buffer_size()
     if type(d_buf) != bytes:
         raise Exception("Data buffer should be type of bytes")
 
-    maximum_buffer_size = get_max_buffer_size()
-    if len(d_buf) > maximum_buffer_size:
-        raise Exception("Maximum Buffer size should be " +
-                str(maximum_buffer_size) + "!")
-
-    buffer = __get_buffer(appid, len(d_buf))
-    buf_loc = ctypes.c_char_p(buffer)
-
-    data = np.array(d_buf).ctypes.data_as(ctypes.c_char_p)
-    __c.memcpy(buf_loc, data, len(d_buf))
-
-    __write_buffer(appid, buf_loc, len(d_buf))
-    __remove_buffer(buf_loc)
+    for i in range(0, len(d_buf), MAX_DATA_SIZE):
+        sending_len = MAX_DATA_SIZE if i + MAX_DATA_SIZE < len(d_buf) else len(d_buf) - i
+        buffer = __get_buffer(appid, sending_len)
+        buf_loc = ctypes.c_char_p(buffer)
+        data = np.array(d_buf[i:i+sending_len]).ctypes.data_as(ctypes.c_char_p)
+        __c.memcpy(buf_loc, data, sending_len)
+        __write_buffer(appid, buf_loc, sending_len)
+        __remove_buffer(buf_loc)
 
 def rah_read(appid, d_len):
     ptr = ctypes.create_string_buffer(d_len)
